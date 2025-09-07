@@ -1,0 +1,25 @@
+h1 {
+  text-transform: uppercase;
+  color: #fff;
+}
+
+header {
+  background-color: #f1891a;
+  padding: 15px;
+
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+}
+
+nav {
+  align-self: center;
+}
+
+.logo {
+  justify-self: start;
+}
+
+.right-component {
+  width: 320px;
+}

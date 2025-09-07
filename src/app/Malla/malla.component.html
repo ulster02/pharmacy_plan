@@ -1,0 +1,18 @@
+<div class="malla-container">
+  <div class="quater" *ngFor="let group of groupsByQuarter">
+    <h2 class="quater-title">Cuatrimestre {{ group.quarter }} </h2>
+    <div class="curso-card" *ngFor="let curso of group.cursos; trackBy: trackByCurso">
+      <h2 class="course-title">{{ curso.name }}</h2>
+      <div class="course-details">
+
+
+        <p>Código: {{ curso.code }}</p>
+        <p>Créditos: {{ curso.credits }}</p>
+        <p>
+          <strong>Requisitos:</strong> {{curso.requisites?.length ? curso.requisites?.join(', '): 'Ninguno'}}
+        </p>
+
+      </div>
+    </div>
+  </div>
+</div>
