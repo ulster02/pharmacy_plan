@@ -37,7 +37,7 @@ export class MallaComponent {
     { code: 'FA0263', name: 'Administración Farmacéutica II', credits: 2, requisites: ['FA0223'], quarter: 4 },
     { code: 'ED0143', name: 'Epidemiología y Demografía', credits: 2, requisites: ['BE0134'], quarter: 4 },
     { code: 'QO0144', name: 'Química Orgánica II', credits: 4, requisites: ['QO0134'], quarter: 4 },
-    { code: 'FS0144', name: 'Fisiología', credits: 6, requisites: ['FG0123 ', 'MO0134'], quarter: 4 },
+    { code: 'FS0144', name: 'Fisiología', credits: 6, requisites: ['FG0123', 'MO0134'], quarter: 4 },
     { code: 'AA0343', name: 'Química Analítica Cuantitativa', credits: 4, requisites: ['QU0123', 'QO0134', 'BE0134'], quarter: 4 },
     // QUINTO CUATRIMESTRE
     { code: 'FA0453', name: 'Farmacognosia I', credits: 3, requisites: ['QO0144'], quarter: 5 },
@@ -85,6 +85,12 @@ export class MallaComponent {
     { code: 'FA1101', name: 'Internado', credits: 1, requisites: ['FA0973', 'FA009', 'FA0103', 'FA1624', 'FA1824', 'FA1063'], quarter: 11 }
 
   ];
+  trackByCurso = (_: number, c: Curso) => c.code;
+
+  completedCourses = new Set<String>();
+  totalCourseCount = this.cursos.length;
+  progress = () => Math.round((this.completedCourses.size / this.totalCourseCount) * 100);
+
   get groupsByQuarter(): group[] {
     const sorted = [...this.cursos].sort((a, b) => a.quarter - b.quarter || a.code.localeCompare(b.code));
     const map = new Map<number, Curso[]>();
@@ -95,5 +101,35 @@ export class MallaComponent {
     return [...map.entries()].map(([quarter, cursos]) => ({ quarter, cursos }));
   }
 
-  trackByCurso = (_: number, c: Curso) => c.code;
+  toggleCompleted(curso: Curso) {
+    if (this.isBlocked(curso)) {
+      this.warningMissingReqs(curso);
+      return;
+    }
+    if (this.completedCourses.has(curso.code)) {
+      this.completedCourses.delete(curso.code);
+    } else {
+      this.completedCourses.add(curso.code);
+    }
+  }
+
+  isCompleted(id: String): boolean {
+    return this.completedCourses.has(id);
+  }
+
+  isBlocked(curso: Curso): boolean {
+    const req = curso.requisites ?? [];
+    if (req.length === 0) return false;
+
+    const todosCumplidos = req.every(r => this.completedCourses.has(String(r)));
+    return !todosCumplidos;
+  }
+
+  warningMissingReqs(curso: Curso): void {
+    const reqs = (curso.requisites ?? []).map(String);
+    const missing = reqs.filter(r => !this.completedCourses.has(r));
+
+    alert(`No puedes completar "${curso.name}". Faltan requisitos: ${missing.join(', ') || '(desconocidos)'}`);
+  }
 }
+

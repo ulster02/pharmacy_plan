@@ -59,6 +59,59 @@ p {
   transform: scale(1.05);
 }
 
+.curso-card.completed {
+  background: #d1ffd1;
+  text-decoration: line-through;
+  color: gray;
+  border: 2px solid green;
+  opacity: 0.8;
+}
+
+.curso-card.blocked {
+  background: #ffd1d1;
+  text-decoration: line-through;
+  color: gray;
+  border: 2px solid red;
+  opacity: 0.6;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.skill-name {
+  width: 120px;
+  font-size: 20px;
+  color: #004e8e;
+  font-weight: normal;
+}
+
+.skill-level {
+  width: 160px;
+  height: 10px;
+  background-color: #eee;
+  border-radius: 10px;
+  border: 1px solid #000;
+  overflow: hidden;
+  margin-left: 20px;
+}
+
+.skill-percent {
+  background-color: #f1891a;
+  height: 100%;
+  position: relative;
+}
+
+.skill-percent-number {
+  margin-left: 20px;
+  font-size: 16px;
+  color: #004e8e;
+}
+
 /* FLEX ADJUSTEMENTS*/
 /* VERTICAL */
 
