@@ -12,6 +12,14 @@ type group = { quarter: number; cursos: Curso[] };
   styleUrls: ['./malla.component.css']
 })
 export class MallaComponent {
+
+  ngOnInit() {
+    const saved = localStorage.getItem('completedCourses');
+    if (saved) {
+      this.completedCourses = new Set(JSON.parse(saved));
+    }
+  }
+
   cursos: Curso[] = [
     // PRIMER CUATRIMESTRE
     { code: 'FA0113', name: 'Introducción a la Farmacia', credits: 3, requisites: [], quarter: 1 },
@@ -111,6 +119,11 @@ export class MallaComponent {
     } else {
       this.completedCourses.add(curso.code);
     }
+
+    localStorage.setItem(
+      'completedCourses', JSON.stringify(Array.from(this.completedCourses))
+    );
+
   }
 
   isCompleted(id: String): boolean {
@@ -130,6 +143,14 @@ export class MallaComponent {
     const missing = reqs.filter(r => !this.completedCourses.has(r));
 
     alert(`No puedes completar "${curso.name}". Faltan requisitos: ${missing.join(', ') || '(desconocidos)'}`);
+  }
+  isLastQuarter(cuatrimestre: number): boolean {
+    const maxQuarter = Math.max(...this.cursos.map(c => c.quarter));
+    return cuatrimestre === maxQuarter;
+  }
+  isLastGroup(group: group): boolean {
+    const maxQuarter = Math.max(...this.cursos.map(c => c.quarter));
+    return group.quarter === maxQuarter;
   }
 }
 

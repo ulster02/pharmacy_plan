@@ -1,15 +1,17 @@
-<div class="malla-container">
-  <div class="skill">
-    <div class="skill-name">Progreso</div>
-    <div class="skill-level">
-      <div class="skill-percent" [style.width.%]="progress()"></div>
-    </div>
-    <div class="skill-percent-number">{{progress()}}</div>
+<div class="skill">
+  <div class="skill-name">Progreso</div>
+  <div class="skill-level">
+    <div class="skill-percent" [style.width.%]="progress()"></div>
   </div>
-  <div class="quater" *ngFor="let group of groupsByQuarter">
+  <div class="skill-percent-number">{{progress()}}</div>
+</div>
+<div class="malla-container">
+
+  <div class="quater" [class.last]="isLastGroup(group)" *ngFor="let group of groupsByQuarter">
     <h2 class="quater-title">Cuatrimestre {{ group.quarter }} </h2>
     <div class="curso-card" [class.blocked]="isBlocked(curso)" [class.completed]="isCompleted(curso.code)"
-      (click)="toggleCompleted(curso)" *ngFor="let curso of group.cursos; trackBy: trackByCurso">
+      (click)="toggleCompleted(curso)" [class.internado]="isLastQuarter(curso.quarter)"
+      *ngFor="let curso of group.cursos; trackBy: trackByCurso">
       <h2 class="course-title">{{ curso.name }}</h2>
       <div class="course-details">
 
